@@ -6,10 +6,10 @@ using UnityEngine.EventSystems;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 1f;
-    [SerializeField] private float paddingTop = 15f;
-    [SerializeField] private float paddingRight = 15f;
-    [SerializeField] private float paddingBottom = 15f;
-    [SerializeField] private float paddingLeft = 15f;
+    [SerializeField] private float paddingLeft = 0.5f;
+    [SerializeField] private float paddingRight = 0.5f;
+    [SerializeField] private float paddingTop = 0.4f;
+    [SerializeField] private float paddingBottom = 0.4f;
 
     private float xMin;
     private float xMax;
