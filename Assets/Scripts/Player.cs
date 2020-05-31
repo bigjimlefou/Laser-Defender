@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,6 +11,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float paddingRight = 0.5f;
     [SerializeField] private float paddingTop = 0.4f;
     [SerializeField] private float paddingBottom = 0.4f;
+    [SerializeField] private float laserSpeed = 10f;
+    
+    [SerializeField] private GameObject laserPrefab;
 
     private float xMin;
     private float xMax;
@@ -19,6 +23,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameObject.Find("Lasser");
         SetBoundaries();
     }
 
@@ -38,6 +43,16 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Fire();
+        }
+    }
+
+    private void Fire()
+    {
+        var laser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
+        laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0,laserSpeed);
     }
 
     private void Move()
