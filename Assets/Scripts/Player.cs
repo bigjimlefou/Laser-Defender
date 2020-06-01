@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float paddingTop = 0.4f;
     [SerializeField] private float paddingBottom = 0.4f;
     [SerializeField] private float laserSpeed = 10f;
+    [SerializeField] private float laserFiringPeriod = 0.5f;
     
     [SerializeField] private GameObject laserPrefab;
 
@@ -19,20 +19,14 @@ public class Player : MonoBehaviour
     private float xMax;
     private float yMin;
     private float yMax;
+    
+    Coroutine fireCoroutine;
 
     // Start is called before the first frame update
     void Start()
     {
         GameObject.Find("Lasser");
         SetBoundaries();
-        StartCoroutine(TestCoroutine());
-    }
-
-    private IEnumerator TestCoroutine()
-    {
-        Debug.Log("StartCoroutine");
-        yield return new WaitForSeconds(3f);
-        Debug.Log("EndCoroutine");
     }
 
     private void SetBoundaries()
@@ -51,16 +45,24 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && fireCoroutine is null)
         {
-            Fire();
+            fireCoroutine = StartCoroutine(FireContinuously());
+        }else if (Input.GetButtonUp("Fire1"))
+        {
+            StopCoroutine(fireCoroutine);
+            fireCoroutine = null;
         }
     }
 
-    private void Fire()
+    private IEnumerator FireContinuously()
     {
-        var laser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
-        laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0,laserSpeed);
+        while (true)
+        {
+            var laser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0,laserSpeed);
+            yield return new WaitForSeconds(laserFiringPeriod);
+        }
     }
 
     private void Move()
