@@ -25,6 +25,14 @@ public class Player : MonoBehaviour
     {
         GameObject.Find("Lasser");
         SetBoundaries();
+        StartCoroutine(TestCoroutine());
+    }
+
+    private IEnumerator TestCoroutine()
+    {
+        Debug.Log("StartCoroutine");
+        yield return new WaitForSeconds(3f);
+        Debug.Log("EndCoroutine");
     }
 
     private void SetBoundaries()
