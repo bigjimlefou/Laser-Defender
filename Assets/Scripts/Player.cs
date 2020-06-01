@@ -45,10 +45,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
-        if (Input.GetButtonDown("Fire1") && fireCoroutine is null)
+        if (Input.GetButtonDown("Fire1") && fireCoroutine == null)
         {
             fireCoroutine = StartCoroutine(FireContinuously());
-        }else if (Input.GetButtonUp("Fire1"))
+        }else if (Input.GetButtonUp("Fire1") && fireCoroutine != null)
         {
             StopCoroutine(fireCoroutine);
             fireCoroutine = null;
