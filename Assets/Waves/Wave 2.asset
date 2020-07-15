@@ -10,5 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d51b2e9f333786e4196bd447489b7a04, type: 3}
-  m_Name: New Wave Wonfig
+  m_Name: Wave 2
   m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 214835970371244429, guid: b3d6d137cfc91a04294c8deb03b3e7f8,
+    type: 3}
+  pathPrefab: {fileID: 1461405040776542293, guid: 6b2aeb1b9bfa50e4c924c0cfb1d1ea3c,
+    type: 3}
+  timeBetweenSpawns: 0.5
+  spawnRandomFactor: 0.3
+  numberOfEnemies: 0
+  moveSpeed: 0.2
