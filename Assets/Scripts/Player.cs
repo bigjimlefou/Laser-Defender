@@ -15,12 +15,12 @@ public class Player : MonoBehaviour
     
     [SerializeField] private GameObject laserPrefab;
 
-    private float xMin;
-    private float xMax;
-    private float yMin;
-    private float yMax;
-    
-    Coroutine fireCoroutine;
+    private float _xMin;
+    private float _xMax;
+    private float _yMin;
+    private float _yMax;
+
+    private Coroutine _fireCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -34,10 +34,10 @@ public class Player : MonoBehaviour
         var mainCamera = Camera.main;
         if (mainCamera != null)
         {
-            xMin = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x+paddingLeft;
-            xMax = mainCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x-paddingRight;
-            yMin = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y+paddingBottom;
-            yMax = mainCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y-paddingTop;
+            _xMin = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x+paddingLeft;
+            _xMax = mainCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x-paddingRight;
+            _yMin = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y+paddingBottom;
+            _yMax = mainCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y-paddingTop;
         }
     }
 
@@ -45,13 +45,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
-        if (Input.GetButtonDown("Fire1") && fireCoroutine == null)
+        if (Input.GetButtonDown("Fire1") && _fireCoroutine == null)
         {
-            fireCoroutine = StartCoroutine(FireContinuously());
-        }else if (Input.GetButtonUp("Fire1") && fireCoroutine != null)
+            _fireCoroutine = StartCoroutine(FireContinuously());
+        }else if (Input.GetButtonUp("Fire1") && _fireCoroutine != null)
         {
-            StopCoroutine(fireCoroutine);
-            fireCoroutine = null;
+            StopCoroutine(_fireCoroutine);
+            _fireCoroutine = null;
         }
     }
 
@@ -71,8 +71,8 @@ public class Player : MonoBehaviour
         var deltaY = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
 
         var position = transform.position;
-        var newXPosition = Mathf.Clamp(position.x + deltaX, xMin, xMax);
-        var newYPosition = Mathf.Clamp(position.y + deltaY, yMin, yMax);
+        var newXPosition = Mathf.Clamp(position.x + deltaX, _xMin, _xMax);
+        var newYPosition = Mathf.Clamp(position.y + deltaY, _yMin, _yMax);
 
         position = new Vector2(newXPosition, newYPosition);
         transform.position = position;
